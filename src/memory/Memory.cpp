@@ -2,10 +2,24 @@
 // Created by Steven Imle on 11/28/16.
 //
 
+#include <iostream>
+#include <iomanip>
 #include "Memory.h"
 
 const uint8_t Memory::MEM_ADDR_BIT_SIZE_TOTAL = sizeof(mem_byte) * 8;
 
+void printMemoryAddress(mem_addr addr) {
+	std::cout << std::setfill('0') << std::setw(sizeof(mem_addr) * 2) << std::hex << addr;
+}
+
+void printMemoryValue(ins_value_t value) {
+	std::cout << std::setfill('0')
+	          << std::setw(2) << std::hex << (value >> 24) << " "
+	          << std::setw(2) << std::hex << (value << 8 >> 24) << " "
+	          << std::setw(2) << std::hex << (value << 16 >> 24) << " "
+	          << std::setw(2) << std::hex << (value << 24 >> 24) << " "
+	          << "(" << std::dec << value << ")";
+}
 
 ins_value_t Memory::read(mem_addr address, Memory::MEM_UNIT size) {
 	ins_value_t temp = 0;
@@ -34,4 +48,50 @@ void Memory::write(mem_addr address, uint32_t value) {
 void Memory::write(mem_addr address, mem_byte byte) {
 	this->memory[address] = byte;
 
+}
+
+void Memory::print() {
+	ins_value_t temp;
+
+	for (mem_map::iterator iter = this->memory.begin(); iter != this->memory.end();) {
+		mem_addr k = iter->first;
+
+		std::cout << "0x";
+		printMemoryAddress(k);
+
+		temp = this->memory[k];
+
+		mem_addr prev = k;
+		temp <<= MEM_ADDR_BIT_SIZE_TOTAL;
+		iter++;
+		k = iter->first;
+
+		if (prev + 1 == k) {
+			temp |= this->memory[k];
+
+			prev = k;
+			temp <<= MEM_ADDR_BIT_SIZE_TOTAL;
+			iter++;
+			k = iter->first;
+
+			if (prev + 1 == k) {
+				temp |= this->memory[k];
+
+				prev = k;
+				temp <<= MEM_ADDR_BIT_SIZE_TOTAL;
+				iter++;
+				k = iter->first;
+
+				if (prev + 1 == k) {
+					temp |= this->memory[k];
+
+					iter++;
+				}
+			}
+		}
+
+		std::cout << ": ";
+		printMemoryValue(temp);
+		std::cout << std::endl;
+	}
 }

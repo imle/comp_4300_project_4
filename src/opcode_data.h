@@ -7,13 +7,15 @@
 
 
 #include <string>
+#include <unordered_map>
 #include <map>
+#include <vector>
 
 enum opcode {
 	OPC_INVALID = 0, OPC_ADD = 1, OPC_MULT = 2, OPC_LI = 3, OPC_ADDI = 4, OPC_B = 5, OPC_BEQZ = 6,
 	OPC_BGE = 7, OPC_BNE = 8, OPC_LA = 9, OPC_LB = 10, OPC_SUBI = 11, OPC_SYSCALL = 12, OPC_NOP = 13,
 	OPC_LUI = 14, OPC_ORI = 15, OPC_BEQ = 16, OPC_SLT = 17,
-	OPC_SD = 17, OPC_LD = 18, OPC_FADD = 19, OPC_FSUB = 20, OPC_FMUL = 21
+	OPC_SD = 18, OPC_LD = 19, OPC_FADD = 20, OPC_FSUB = 21, OPC_FMUL = 22
 };
 
 enum OPC_TYPE {
@@ -33,33 +35,45 @@ enum OPC_FU_TYPE {
 	FU_MEM,     // Load/Store Memory
 };
 
-// Order matters here.
+struct EnumClassHash {
+	template<typename T>
+	std::size_t operator()(T t) const {
+		return static_cast<std::size_t>(t);
+	}
+};
+
 static std::map<opcode, std::string> OPC_STRINGS = {
-		{OPC_B,         "b"         },
-		{OPC_LI,        "li"        },
-		{OPC_LA,        "la"        },
-		{OPC_LB,        "lb"        },
-		{OPC_NOP,       "nop"       },
-		{OPC_SD,        "s.d"       },
-		{OPC_LD,        "l.d"       },
-		{OPC_ADD,       "add"       },
-		{OPC_BGE,       "bge"       },
-		{OPC_BNE,       "bne"       },
-		{OPC_LUI,       "lui"       },
-		{OPC_ORI,       "ori"       },
-		{OPC_BEQ,       "beq"       },
-		{OPC_SLT,       "slt"       },
-		{OPC_FADD,      "fadd"      },
-		{OPC_FSUB,      "fsub"      },
-		{OPC_FMUL,      "fmul"      },
-		{OPC_MULT,      "mult"      },
-		{OPC_ADDI,      "addi"      },
-		{OPC_BEQZ,      "beqz"      },
-		{OPC_SUBI,      "subi"      },
-		{OPC_SYSCALL,   "syscall"   },
+		{ OPC_SYSCALL,  "syscall" },
+		{ OPC_FADD,     "fadd" },
+		{ OPC_FSUB,     "fsub" },
+		{ OPC_FMUL,     "fmul" },
+		{ OPC_MULT,     "mult" },
+		{ OPC_ADDI,     "addi" },
+		{ OPC_BEQZ,     "beqz" },
+		{ OPC_SUBI,     "subi" },
+		{ OPC_NOP,      "nop" },
+		{ OPC_SD,       "s.d" },
+		{ OPC_LD,       "l.d" },
+		{ OPC_ADD,      "add" },
+		{ OPC_BGE,      "bge" },
+		{ OPC_BNE,      "bne" },
+		{ OPC_LUI,      "lui" },
+		{ OPC_ORI,      "ori" },
+		{ OPC_BEQ,      "beq" },
+		{ OPC_SLT,      "slt" },
+		{ OPC_LI,       "li" },
+		{ OPC_LA,       "la" },
+		{ OPC_LB,       "lb" },
+		{ OPC_B,        "b" },
 };
 
 // Order matters here.
+static std::vector<opcode> OPC_STRING_ORDER = {
+		OPC_SYSCALL, OPC_FADD, OPC_FSUB, OPC_FMUL, OPC_MULT, OPC_ADDI, OPC_BEQZ,
+		OPC_SUBI, OPC_NOP, OPC_SD, OPC_LD, OPC_ADD, OPC_BGE, OPC_BNE, OPC_LUI,
+		OPC_ORI, OPC_BEQ, OPC_SLT, OPC_LI, OPC_LA, OPC_LB, OPC_B,
+};
+
 static std::map<opcode, OPC_FU_TYPE> OPC_FU = {
 		// Should be none, but need INT pipeline's access to memory.
 		{ OPC_SYSCALL,  FU_INT },

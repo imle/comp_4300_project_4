@@ -108,11 +108,11 @@ ERROR_CODE TextSectionParser::parse(std::string file_path) {
 ERROR_CODE TextSectionParser::decodeLine(std::string line, mem_addr &addr) {
 	opcode code;
 
-	std::map<opcode, std::string>::iterator iter;
-	for (iter = OPC_STRINGS.begin(); iter != OPC_STRINGS.end(); iter++) {
-		if (line.find(iter->second) == 0) {
-			code = iter->first;
-			line = ltrimmed(line.substr(iter->second.length()));
+	std::vector<opcode>::iterator iter;
+	for (iter = OPC_STRING_ORDER.begin(); iter != OPC_STRING_ORDER.end(); iter++) {
+		if (line.find(OPC_STRINGS[(*iter)]) == 0) {
+			code = *iter;
+			line = ltrimmed(line.substr(OPC_STRINGS[(*iter)].length()));
 
 			this->opc_list.push_back(std::make_pair(code, line));
 

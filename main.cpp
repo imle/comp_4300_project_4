@@ -18,6 +18,8 @@ int main(int argc, char *argv[]) {
 	sim->setMode(ap->getMode());
 	result = sim->run(ap->getRunFile());
 
+	mem->print();
+
 	printError(result);
 
 	return result;

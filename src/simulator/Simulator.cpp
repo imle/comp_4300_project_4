@@ -3,18 +3,9 @@
 //
 
 #include "Simulator.h"
-#include "../memory/MemoryLoader.h"
 
-ERROR_CODE Simulator::loopPre() {
-	return NO_ERROR;
-}
-
-ERROR_CODE Simulator::loopBody() {
-	return NO_ERROR;
-}
-
-ERROR_CODE Simulator::loopPost() {
-	return NO_ERROR;
+void Simulator::setMode(SIM_MODE mode) {
+	this->mode = mode;
 }
 
 Simulator::Simulator(Memory *mem, MemoryLoader *ml) {
@@ -32,6 +23,14 @@ ERROR_CODE Simulator::run(std::string file_path) {
 	return NO_ERROR;
 }
 
-void Simulator::setMode(SIM_MODE mode) {
-	this->mode = mode;
+ERROR_CODE Simulator::loopPre() {
+	return NO_ERROR;
+}
+
+ERROR_CODE Simulator::loopBody() {
+	return NO_ERROR;
+}
+
+ERROR_CODE Simulator::loopPost() {
+	return NO_ERROR;
 }

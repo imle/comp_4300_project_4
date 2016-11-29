@@ -11,7 +11,7 @@
 #include "../util/number_functions.h"
 
 const uint8_t MEM_ADDR_BIT_SIZE_TOTAL = sizeof(uint8_t) * 8;
-const mem_addr MEM_SIZE_TOTAL = (mem_addr)(pow(2, MEM_ADDR_BIT_SIZE_TOTAL) - 1);
+const mem_addr MEM_SIZE_TOTAL = (mem_addr)(pow(2, sizeof(mem_addr) * 8) - 1);
 
 const uint8_t MEM_ADDR_SIZE_OPC = 6;  // Opcode
 const uint8_t MEM_ADDR_SIZE_REG = 5;  // Register
@@ -53,6 +53,8 @@ public:
 	void write(mem_addr address, uint32_t value);
 
 	void write(mem_addr address, mem_byte byte);
+
+	void print();
 };
 
 
