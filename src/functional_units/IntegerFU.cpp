@@ -103,12 +103,12 @@ uint8_t IntegerFU::getFUOpc(opcode opc) {
 		case OPC_BNE:
 		case OPC_BEQ:
 			return IFU_OPC_NA;
+		case OPC_LB:
 		case OPC_ADDI:
+		case OPC_ADD:
 			return IFU_OPC_ADD;
 		case OPC_SUBI:
 			return IFU_OPC_SUB;
-		case OPC_ADD:
-			return IFU_OPC_ADD;
 		case OPC_SLT:
 			return IFU_OPC_SLT;
 		case OPC_LUI:

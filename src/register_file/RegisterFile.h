@@ -18,11 +18,14 @@ public:
 
 	void write(reg_addr addr, reg_value value);
 
+	void print(void);
+
 protected:
 	static const std::map<std::string, reg_addr> REGISTER_NAME_MAP;
 	static const char *REGISTER_NAME_BASE;
 
 	reg_value values[MAX_ADDRESS_FP];
+	bool register_changes[MAX_ADDRESS_FP];
 };
 
 

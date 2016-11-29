@@ -90,11 +90,10 @@ static std::map<opcode, OPC_FU_TYPE> OPC_FU = {
 
 		{ OPC_LUI,      FU_INT },
 		{ OPC_ORI,      FU_INT },
+		{ OPC_LB,       FU_INT },
 
-		{ OPC_LB,       FU_MEM },
 		{ OPC_SD,       FU_MEM },
 		{ OPC_LD,       FU_MEM },
-
 		{ OPC_FADD,     FU_ADD },
 		{ OPC_FSUB,     FU_ADD },
 		{ OPC_FMUL,     FU_MULT },

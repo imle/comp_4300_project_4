@@ -18,7 +18,7 @@ Simulator::Simulator(Memory *mem, MemoryLoader *ml, ScoreBoard *sb, RegisterFile
 	this->pc = MEM_ADDR_MIN_USER_TEXT;
 
 	this->sb->registerFunctionalUnit(new IntegerFU());
-//	this->sb->registerFunctionalUnit(new IntegerFU());
+	this->sb->registerFunctionalUnit(new IntegerFU());
 }
 
 ERROR_CODE Simulator::run(std::string file_path) {
@@ -57,18 +57,24 @@ ERROR_CODE Simulator::run(std::string file_path) {
 				this->systemCall(rd1, this->user_mode);
 			}
 
-			uint32_t alu_value;
-			if (std::get<5>(OPC_CONTROL_SIGNALS[ins.opc])) {
-				alu_value = (uint32_t)ins.imm;
-			}
-			else {
-				alu_value = rd2;
-			}
-
+			uint32_t alu_value = std::get<5>(OPC_CONTROL_SIGNALS[ins.opc]) ? (uint32_t)ins.imm : rd2;
 			uint8_t operation = (iter->first)->getFUOpc(ins.opc);
+
 			uint32_t value = (iter->first)->performOperation(operation, rd1, alu_value);
 
-			this->rf->write(ins.rd, value);
+			if (OPC_FU[ins.opc] == FU_INT) {
+				if (std::get<0>(OPC_CONTROL_SIGNALS[ins.opc])) {
+					this->rf->write(ins.rd, value);
+				}
+
+				if (std::get<3>(OPC_CONTROL_SIGNALS[ins.opc])) {
+					this->mem->write(value, rd2);
+				}
+
+				if (std::get<4>(OPC_CONTROL_SIGNALS[ins.opc]) && std::get<1>(OPC_CONTROL_SIGNALS[ins.opc])) {
+					this->rf->write(ins.rd, this->mem->read(value, SIZE_BYTE));
+				}
+			}
 		}
 
 		this->sb->read();
