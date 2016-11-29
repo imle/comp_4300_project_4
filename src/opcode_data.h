@@ -231,33 +231,33 @@ static std::map<opcode, uint8_t> OPC_UNPACKED_COUNT = {
 typedef std::tuple<bool, bool, bool, bool, bool, bool, bool> control_signal_tuple;
 
 static std::map<opcode, control_signal_tuple> OPC_CONTROL_SIGNALS = {
-//		{ OPC_ADDI,    std::make_tuple(true, false, false, false, false, true, false) },
-//		{ OPC_B,       std::make_tuple(false, false, true, false, false, false, false) },
-//		{ OPC_BNE,     std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_LUI,     std::make_tuple(true, false, false, false, false, true, false) },
-//		{ OPC_ORI,     std::make_tuple(true, false, false, false, false, true, false) },
-//		{ OPC_LB,      std::make_tuple(true, true, false, false, true, true, false) },
-//		{ OPC_SUBI,    std::make_tuple(true, false, false, false, false, true, false) },
-//		{ OPC_BEQ,     std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_SLT,     std::make_tuple(true, false, false, false, false, false, true) },
-//
-//		{ OPC_ADD,     nullptr }, // std::make_tuple()
-//		{ OPC_MULT,    nullptr }, // std::make_tuple()
-//
-//		{ OPC_SYSCALL, std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_NOP,     std::make_tuple(false, false, false, false, false, false, false) },
-//
-//		// pseudo opcodes
-//		{ OPC_LI,      std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_BEQZ,    std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_BGE,     std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_LA,      std::make_tuple(false, false, false, false, false, false, false) },
-//
-//		{ OPC_SD,      std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_LD,      std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_FADD,    std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_FSUB,    std::make_tuple(false, false, false, false, false, false, false) },
-//		{ OPC_FMUL,    std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_ADDI,    std::make_tuple(true, false, false, false, false, true, false) },
+		{ OPC_B,       std::make_tuple(false, false, true, false, false, false, false) },
+		{ OPC_BNE,     std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_LUI,     std::make_tuple(true, false, false, false, false, true, false) },
+		{ OPC_ORI,     std::make_tuple(true, false, false, false, false, true, false) },
+		{ OPC_LB,      std::make_tuple(true, true, false, false, true, true, false) },
+		{ OPC_SUBI,    std::make_tuple(true, false, false, false, false, true, false) },
+		{ OPC_BEQ,     std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_SLT,     std::make_tuple(true, false, false, false, false, false, true) },
+
+		{ OPC_ADD,     nullptr }, // std::make_tuple()
+		{ OPC_MULT,    nullptr }, // std::make_tuple()
+
+		{ OPC_SYSCALL, std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_NOP,     std::make_tuple(false, false, false, false, false, false, false) },
+
+		// pseudo opcodes
+		{ OPC_LI,      std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_BEQZ,    std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_BGE,     std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_LA,      std::make_tuple(false, false, false, false, false, false, false) },
+
+		{ OPC_SD,      std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_LD,      std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_FADD,    std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_FSUB,    std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_FMUL,    std::make_tuple(false, false, false, false, false, false, false) },
 };
 
 const std::string DATA_TYPE_ASCII = "ascii";        // str

@@ -8,6 +8,7 @@
 
 #include <cstdint>
 #include "../opcode_data.h"
+#include "../types_data.h"
 
 class FunctionalUnit {
 protected:
@@ -21,6 +22,8 @@ public:
 	uint8_t getCyclesNeeded(void);
 
 	virtual int32_t performOperation(uint8_t alu_opc, int32_t operand_a, int32_t operand_b) = 0;
+
+	virtual uint8_t getFUOpc(opcode opc) = 0;
 
 	virtual bool getFlag(uint8_t flag) = 0;
 };

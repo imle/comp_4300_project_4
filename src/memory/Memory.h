@@ -44,10 +44,6 @@ private:
 public:
 	static const uint8_t MEM_ADDR_BIT_SIZE_TOTAL;
 
-	enum MEM_UNIT {
-		SIZE_BIT = 1, SIZE_NYBBLE = 4, SIZE_BYTE = 8, SIZE_WORD = 16, SIZE_DWORD = 32
-	};
-
 	ins_value_t read(mem_addr address, MEM_UNIT size);
 
 	void write(mem_addr address, uint32_t value);

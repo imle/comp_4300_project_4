@@ -21,7 +21,7 @@ void printMemoryValue(ins_value_t value) {
 	          << "(" << std::dec << value << ")";
 }
 
-ins_value_t Memory::read(mem_addr address, Memory::MEM_UNIT size) {
+ins_value_t Memory::read(mem_addr address, MEM_UNIT size) {
 	ins_value_t temp = 0;
 
 	if (size == SIZE_BIT)

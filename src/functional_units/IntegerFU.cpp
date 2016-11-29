@@ -94,3 +94,29 @@ IntegerFU::IntegerFU() {
 	this->fu_type = FU_INT;
 	this->cycles_needed = 2;
 }
+
+uint8_t IntegerFU::getFUOpc(opcode opc) {
+	switch (opc) {
+		case OPC_SYSCALL:
+		case OPC_NOP:
+		case OPC_B:
+		case OPC_BNE:
+		case OPC_BEQ:
+			return IFU_OPC_NA;
+		case OPC_ADDI:
+			return IFU_OPC_ADD;
+		case OPC_SUBI:
+			return IFU_OPC_SUB;
+		case OPC_ADD:
+			return IFU_OPC_ADD;
+		case OPC_SLT:
+			return IFU_OPC_SLT;
+		case OPC_LUI:
+			return IFU_OPC_SHL;
+		case OPC_ORI:
+			return IFU_OPC_OR;
+		default:
+			printError(IFU_INVALID_OPC_TYPE);
+			exit(IFU_INVALID_OPC_TYPE);
+	}
+}

@@ -28,8 +28,10 @@ private:
 		FunctionalUnit *wait_on_fu_t;   // Qk
 		bool available_s;               // Rj
 		bool available_t;               // Rk
-		uint8_t time_remaining;         // Rk
-	} fus;
+
+		uint16_t time_remaining;        // Rk
+		instruction ins;
+	};
 
 	struct IS {
 		IS() : issue(0), read(0), exec(0), write(0) {};
@@ -39,7 +41,7 @@ private:
 		uint32_t read;
 		uint32_t exec;
 		uint32_t write;
-	} is;
+	};
 
 	std::map<FunctionalUnit *, FUS> statuses_fu;
 
@@ -48,24 +50,21 @@ private:
 	std::vector<IS> statuses_ins;
 
 	uint32_t cycle;
-	uint32_t current_ins_num;
 
 public:
 	ScoreBoard();
 
 	FunctionalUnit *issue(instruction ins);
 
-	bool read(void);
+	void read(void);
 
 	void advance(void);
 
-	void write(void);
+	std::map<FunctionalUnit *, instruction> write(void);
 
 	void registerFunctionalUnit(FunctionalUnit *fu);
 
 	bool isFinished(FunctionalUnit *fu);
-
-	reg_addr getDestinationRegister(FunctionalUnit *fu);
 };
 
 

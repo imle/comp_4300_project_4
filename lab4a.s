@@ -14,6 +14,8 @@ loop:
 	nop
 	bge  $2, $1, loop
 	nop
+	nop
+	nop
 
 	li $2, 10
 	syscall

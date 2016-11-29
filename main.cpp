@@ -10,15 +10,16 @@ int main(int argc, char *argv[]) {
 	DataSectionParser *dsp = new DataSectionParser(mem, MEM_ADDR_MIN_USER_DATA, MEM_ADDR_MAX_USER_DATA);
 	TextSectionParser *tsp = new TextSectionParser(mem, MEM_ADDR_MIN_USER_TEXT, MEM_ADDR_MAX_USER_TEXT, dsp);
 
-	MemoryLoader *ml = new MemoryLoader(tsp, dsp, ';');
+	MemoryLoader *ml = new MemoryLoader(tsp, dsp, '#');
 
-	Simulator *sim = new Simulator(mem, ml);
+	ScoreBoard *sb = new ScoreBoard();
+	RegisterFile *rf = new RegisterFile();
+
+	Simulator *sim = new Simulator(mem, ml, sb, rf);
 	ERROR_CODE result;
 
 	sim->setMode(ap->getMode());
 	result = sim->run(ap->getRunFile());
-
-	mem->print();
 
 	printError(result);
 

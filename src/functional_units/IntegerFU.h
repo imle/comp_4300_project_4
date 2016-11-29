@@ -10,8 +10,6 @@
 
 class IntegerFU : public FunctionalUnit {
 public:
-	static const uint32_t MSB_HIGH;
-
 	enum IFU_OPC {
 		IFU_OPC_AND = 0,
 		IFU_OPC_OR = 1,
@@ -38,7 +36,11 @@ public:
 
 	bool getFlag(uint8_t flag) override;
 
+	uint8_t getFUOpc(opcode opc) override;
+
 protected:
+	static const uint32_t MSB_HIGH;
+
 	bool flag_zero;
 	bool flag_overflow;
 	bool flag_carry;
