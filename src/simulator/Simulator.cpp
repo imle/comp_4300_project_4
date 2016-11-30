@@ -7,6 +7,7 @@
 #include "../functional_units/IntegerFU.h"
 #include "../functional_units/FPAddFU.h"
 #include "../functional_units/FPMemoryFU.h"
+#include "../functional_units/FPMultiplyFU.h"
 
 void Simulator::setMode(SIM_MODE mode) {
 	this->mode = mode;
@@ -22,6 +23,7 @@ Simulator::Simulator(Memory *mem, MemoryLoader *ml, ScoreBoard *sb, RegisterFile
 	this->sb->registerFunctionalUnit(new IntegerFU());
 	this->sb->registerFunctionalUnit(new IntegerFU());
 	this->sb->registerFunctionalUnit(new FPAddFU());
+	this->sb->registerFunctionalUnit(new FPMultiplyFU());
 	this->sb->registerFunctionalUnit(new FPMemoryFU(this->mem));
 }
 
