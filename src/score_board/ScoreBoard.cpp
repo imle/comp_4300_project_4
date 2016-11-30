@@ -71,6 +71,8 @@ void ScoreBoard::read(void) {
 				iter->second.available_s = false;
 				iter->second.available_t = false;
 				iter->second.was_started = true;
+
+				this->statuses_reg[iter->second.f_d] = iter->first;
 			}
 		}
 	}
@@ -79,7 +81,7 @@ void ScoreBoard::read(void) {
 void ScoreBoard::advance(void) {
 	std::map<FunctionalUnit *, FUS>::iterator iter;
 	for (iter = this->statuses_fu.begin(); iter != this->statuses_fu.end(); iter++) {
-		if (iter->second.busy) {
+		if (iter->second.busy && iter->second.was_started) {
 			if (iter->second.time_remaining > 0) {
 				iter->second.time_remaining--;
 			}

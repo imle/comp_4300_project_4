@@ -3,7 +3,7 @@ CXXFLAGS  = -g -std=c++0x -Wall
 
 MKDIR_P = mkdir -p
 OUT_DIR = build_dir
-PROG_NAME = main
+PROG_NAME = scoSim
 
 .PHONY: directories
 
@@ -14,14 +14,17 @@ directories: ${OUT_DIR}
 ${OUT_DIR}:
 	${MKDIR_P} ${OUT_DIR}
 
-${PROG_NAME}: ${PROG_NAME}.cpp ${OUT_DIR}/AbstractSectionParser.o ${OUT_DIR}/SectionParser.o ${OUT_DIR}/IntegerFU.o ${OUT_DIR}/FunctionalUnit.o ${OUT_DIR}/Memory.o ${OUT_DIR}/MemoryLoader.o ${OUT_DIR}/RegisterFile.o ${OUT_DIR}/ScoreBoard.o ${OUT_DIR}/Simulator.o ${OUT_DIR}/ArgumentParser.o ${OUT_DIR}/number_functions.o ${OUT_DIR}/string_functions.o ${OUT_DIR}/error_codes.o ${OUT_DIR}/types_data.o ${OUT_DIR}/opcode_data.o ${OUT_DIR}/FPAddFU.o ${OUT_DIR}/FPMemoryFU.o ${OUT_DIR}/Color.o
-	$(CC) $(CXXFLAGS) -o ${PROG_NAME} ${PROG_NAME}.cpp ${OUT_DIR}/AbstractSectionParser.o ${OUT_DIR}/SectionParser.o ${OUT_DIR}/IntegerFU.o ${OUT_DIR}/FunctionalUnit.o ${OUT_DIR}/Memory.o ${OUT_DIR}/MemoryLoader.o ${OUT_DIR}/RegisterFile.o ${OUT_DIR}/ScoreBoard.o ${OUT_DIR}/Simulator.o ${OUT_DIR}/ArgumentParser.o ${OUT_DIR}/number_functions.o ${OUT_DIR}/string_functions.o ${OUT_DIR}/error_codes.o ${OUT_DIR}/types_data.o ${OUT_DIR}/opcode_data.o ${OUT_DIR}/FPAddFU.o ${OUT_DIR}/FPMemoryFU.o ${OUT_DIR}/Color.o
+${PROG_NAME}: ${PROG_NAME}.cpp ${OUT_DIR}/AbstractSectionParser.o ${OUT_DIR}/SectionParser.o ${OUT_DIR}/IntegerFU.o ${OUT_DIR}/FunctionalUnit.o ${OUT_DIR}/Memory.o ${OUT_DIR}/MemoryLoader.o ${OUT_DIR}/RegisterFile.o ${OUT_DIR}/ScoreBoard.o ${OUT_DIR}/Simulator.o ${OUT_DIR}/ArgumentParser.o ${OUT_DIR}/number_functions.o ${OUT_DIR}/string_functions.o ${OUT_DIR}/error_codes.o ${OUT_DIR}/types_data.o ${OUT_DIR}/opcode_data.o ${OUT_DIR}/FPAddFU.o ${OUT_DIR}/FPMemoryFU.o ${OUT_DIR}/Color.o ${OUT_DIR}/FPMultiplyFU.o
+	$(CC) $(CXXFLAGS) -o ${PROG_NAME} ${PROG_NAME}.cpp ${OUT_DIR}/AbstractSectionParser.o ${OUT_DIR}/SectionParser.o ${OUT_DIR}/IntegerFU.o ${OUT_DIR}/FunctionalUnit.o ${OUT_DIR}/Memory.o ${OUT_DIR}/MemoryLoader.o ${OUT_DIR}/RegisterFile.o ${OUT_DIR}/ScoreBoard.o ${OUT_DIR}/Simulator.o ${OUT_DIR}/ArgumentParser.o ${OUT_DIR}/number_functions.o ${OUT_DIR}/string_functions.o ${OUT_DIR}/error_codes.o ${OUT_DIR}/types_data.o ${OUT_DIR}/opcode_data.o ${OUT_DIR}/FPAddFU.o ${OUT_DIR}/FPMemoryFU.o ${OUT_DIR}/Color.o ${OUT_DIR}/FPMultiplyFU.o
 
 ${OUT_DIR}/AbstractSectionParser.o: src/compiler/AbstractSectionParser.cpp
 	$(CC) $(CXXFLAGS) -o ${OUT_DIR}/AbstractSectionParser.o -c src/compiler/AbstractSectionParser.cpp
 
 ${OUT_DIR}/SectionParser.o: src/compiler/SectionParser.cpp
 	$(CC) $(CXXFLAGS) -o ${OUT_DIR}/SectionParser.o -c src/compiler/SectionParser.cpp
+
+${OUT_DIR}/FPMultiplyFU.o: src/functional_units/FPMultiplyFU.cpp
+	$(CC) $(CXXFLAGS) -o ${OUT_DIR}/FPMultiplyFU.o -c src/functional_units/FPMultiplyFU.cpp
 
 ${OUT_DIR}/FPMemoryFU.o: src/functional_units/FPMemoryFU.cpp
 	$(CC) $(CXXFLAGS) -o ${OUT_DIR}/FPMemoryFU.o -c src/functional_units/FPMemoryFU.cpp

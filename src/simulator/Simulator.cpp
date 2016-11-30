@@ -13,7 +13,6 @@ void Simulator::setMode(SIM_MODE mode) {
 	this->mode = mode;
 }
 
-
 Simulator::Simulator(Memory *mem, MemoryLoader *ml, ScoreBoard *sb, RegisterFile *rf)
 		: mem(mem), ml(ml), sb(sb), rf(rf) {
 	this->user_mode = false;
@@ -186,8 +185,16 @@ ERROR_CODE Simulator::systemCall(ins_value_t code, bool &should_exit) {
 	}
 
 	else if (code == 3) {
-		// TODO: Implement
 		/// $f12 = double to be printed
+		uint64_t value1 = this->rf->read(this->rf->registerNameToAddress("$f12"));
+		uint64_t value2 = this->rf->read(this->rf->registerNameToAddress("$f13"));
+
+		uint64_t value = (value1 << 32) | value2;
+
+		double output_double;
+		memcpy(&output_double, &value, sizeof(value));
+
+		std::cout << output_double << std::endl;
 	}
 
 	else if (code == 4) {

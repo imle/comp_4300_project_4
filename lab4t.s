@@ -11,7 +11,7 @@ main:
 
 loop:
     subi $5, $5, 1
-	fmul $f12, $f0, $f1
+	fsub $f12, $f0, $f1
 	bne  $5, $0, loop
 	nop
 	nop

@@ -35,6 +35,11 @@ void RegisterFile::write(reg_addr addr, reg_value value) {
 		exit(RS_INVALID_REGISTER_ADDRESS);
 	}
 
+	if (addr == 0) {
+		printError(RS_INVALID_REGISTER_ADDRESS);
+		exit(RS_INVALID_REGISTER_ADDRESS);
+	}
+
 	this->values[addr] = value;
 	this->register_changes[addr] = true;
 }

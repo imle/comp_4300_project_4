@@ -240,8 +240,8 @@ static std::map<opcode, control_signal_tuple> OPC_CONTROL_SIGNALS = {
 		{ OPC_BEQ,     std::make_tuple(false, false, false, false, false, false, false) },
 		{ OPC_SLT,     std::make_tuple(true, false, false, false, false, false, true) },
 
-		{ OPC_ADD,     nullptr }, // std::make_tuple()
-		{ OPC_MULT,    nullptr }, // std::make_tuple()
+		{ OPC_ADD,     std::make_tuple(true, false, false, false, false, false, true) },
+		{ OPC_MULT,    nullptr },
 
 		{ OPC_SYSCALL, std::make_tuple(false, false, false, false, false, false, false) },
 		{ OPC_NOP,     std::make_tuple(false, false, false, false, false, false, false) },
