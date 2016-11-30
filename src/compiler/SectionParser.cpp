@@ -56,7 +56,7 @@ ERROR_CODE TextSectionParser::parse(std::string file_path) {
 		if (pre_decode == load_at)
 			load_at += sizeof(SIZE_DWORD);
 
-		if (ret_val != 0)
+		if (ret_val != NO_ERROR)
 			return ret_val;
 
 		line_number++;
@@ -126,8 +126,6 @@ ERROR_CODE TextSectionParser::decodeLine(std::string line, mem_addr &addr) {
 ERROR_CODE TextSectionParser::parseInstruction(std::string line, mem_addr &addr, opcode code) {
 	ins_value_t ins_value = code;
 
-	instruction ins = instruction();
-	ins.opc = code;
 	uint8_t shift_total = MEM_ADDR_BIT_SIZE_TOTAL * sizeof(ins_value_t) - MEM_ADDR_SIZE_OPC;
 
 	std::__1::string rd, rs, rt;
@@ -429,7 +427,7 @@ ERROR_CODE TextSectionParser::shiftOnImmediate(ins_value_t &ins, std::string val
 }
 
 ERROR_CODE DataSectionParser::decodeLine(std::string line, mem_addr &addr) {
-	unsigned long split_index = line.find(':');
+	size_t split_index = line.find(':');
 
 	std::string variable = rtrimmed(line.substr(0, split_index));
 	std::string value = ltrimmed(line.substr(split_index + 1));
@@ -461,11 +459,57 @@ ERROR_CODE DataSectionParser::decodeLine(std::string line, mem_addr &addr) {
 		}
 	}
 	else if (type == DATA_TYPE_BYTE || type == DATA_TYPE_HALFWORD || type == DATA_TYPE_WORD) {
-		// TODO: Implement this data type.
-		return SRC_FILE_INVALID_DATA_TYPE;
+		std::vector<uint8_t> numbers;
+		int32_t number;
+
+		while (value.length() != 0) {
+			split_index = value.find(',');
+
+			number = std::stoi(split_index != std::string::npos ? value.substr(0, split_index) : value);
+
+			numbers.push_back((uint8_t)number);
+
+			if (type == DATA_TYPE_HALFWORD || type == DATA_TYPE_WORD) {
+				number = sizeof(uint8_t) * 8;
+				numbers.push_back((uint8_t)number);
+			}
+
+			if (type == DATA_TYPE_WORD) {
+				number = sizeof(uint8_t) * 8;
+				numbers.push_back((uint8_t)number);
+			}
+
+			value = split_index != std::string::npos ? ltrimmed(value.substr(split_index + 1)) : "";
+		}
+
+		for (std::vector<uint8_t>::iterator iter = numbers.begin(); iter != numbers.end(); iter++) {
+			this->mem->write(addr++, *iter);
+		}
+	}
+	else if (type == DATA_TYPE_FLOAT) {
+		std::vector<uint32_t> numbers;
+		float value_float;
+		uint32_t value_int;
+
+		while (value.length() != 0) {
+			split_index = value.find(',');
+
+			value_float = std::stof(split_index != std::string::npos ? value.substr(0, split_index) : value);
+
+			memcpy(&value_int, &value_float, sizeof(value_float));
+
+			numbers.push_back(value_int);
+
+			value = split_index != std::string::npos ? ltrimmed(value.substr(split_index + 1)) : "";
+		}
+
+		for (std::vector<uint32_t>::iterator iter = numbers.begin(); iter != numbers.end(); iter++) {
+			this->mem->write(addr, *iter);
+			addr += sizeof(SIZE_DWORD);
+		}
 	}
 	else if (type == DATA_TYPE_SPACE) {
-		mem_addr temp_value = (mem_addr)std::stoi(value, nullptr, 10);
+		mem_addr temp_value = (mem_addr)std::stoi(value);
 
 		addr += temp_value;
 	}

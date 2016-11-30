@@ -17,7 +17,7 @@ private:
 	struct FUS {
 		FUS() : busy(false), opc(OPC_INVALID), f_d(INVALID_REGISTER), f_s(INVALID_REGISTER), f_t(INVALID_REGISTER),
 		        wait_on_fu_s(nullptr), wait_on_fu_t(nullptr), available_s(true), available_t(true),
-		        time_remaining(0) {};
+		        time_remaining(0), was_started(0) {};
 
 		bool busy;
 		opcode opc;
@@ -31,6 +31,7 @@ private:
 
 		uint16_t time_remaining;        // Rk
 		instruction ins;
+		bool was_started;
 	};
 
 	struct IS {
@@ -65,6 +66,10 @@ public:
 	void registerFunctionalUnit(FunctionalUnit *fu);
 
 	bool isFinished(FunctionalUnit *fu);
+
+	bool allFinished(void);
+
+	bool allIdle(void);
 };
 
 

@@ -2,7 +2,6 @@
 // Created by Steven Imle on 11/27/16.
 //
 
-#include <cstdlib>
 #include <iostream>
 #include "error_codes.h"
 
@@ -17,8 +16,8 @@ void printError(ERROR_CODE error_code) {
 		case SS_INVALID_PSEUDO_OPCODE:
 			fprintf(stderr, "error: SS_INVALID_PSEUDO_OPCODE\r\n");
 			break;
-		case SS_MEMORY_STACK_OVERFLOW:
-			fprintf(stderr, "error: SS_MEMORY_STACK_OVERFLOW\r\n");
+		case NO_FUNCTIONAL_UNIT_AVAILABLE:
+			fprintf(stderr, "error: NO_FUNCTIONAL_UNIT_AVAILABLE\r\n");
 			break;
 		case SS_SRC_FILE_READ_ERROR:
 			fprintf(stderr, "error: SS_SRC_FILE_READ_ERROR\r\n");

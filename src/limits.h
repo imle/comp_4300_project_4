@@ -7,13 +7,16 @@
 
 #include "types_data.h"
 
-const reg_addr REGISTER_COUNT = 32;
-const reg_addr REGISTER_COUNT_FP = 32;
+const reg_addr REGISTER_SPACE = 32;
+const reg_addr REGISTER_SECTIONS = 2;
+
+const reg_addr REGISTER_COUNT = REGISTER_SPACE / REGISTER_SECTIONS;
+const reg_addr REGISTER_COUNT_FP = REGISTER_SPACE / REGISTER_SECTIONS;
 
 const reg_addr MIN_ADDRESS = 0;
 const reg_addr MAX_ADDRESS = REGISTER_COUNT - 1;
 const reg_addr MIN_ADDRESS_FP = MAX_ADDRESS + 1;
-const reg_addr MAX_ADDRESS_FP = REGISTER_COUNT_FP - 1;
+const reg_addr MAX_ADDRESS_FP = MIN_ADDRESS_FP + REGISTER_COUNT_FP - 1;
 
 const reg_addr INVALID_REGISTER = MAX_ADDRESS_FP + 1;
 

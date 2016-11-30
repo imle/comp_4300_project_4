@@ -60,9 +60,17 @@ ERROR_CODE MemoryLoader::loadFileIntoMemory(std::string file_path, Memory *mem) 
 	temp_file_data.close();
 	temp_file_text.close();
 
-	this->dsp->parse(TEMP_FILE_LOC_DATA);
+	ERROR_CODE result;
 
-	this->tsp->parse(TEMP_FILE_LOC_TEXT);
+	result = this->dsp->parse(TEMP_FILE_LOC_DATA);
+
+	if (result != NO_ERROR)
+		return result;
+
+	result = this->tsp->parse(TEMP_FILE_LOC_TEXT);
+
+	if (result != NO_ERROR)
+		return result;
 
 	std::remove(TEMP_FILE_LOC_TEXT.c_str());
 	std::remove(TEMP_FILE_LOC_DATA.c_str());

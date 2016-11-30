@@ -23,9 +23,9 @@ protected:
 	uint32_t cycle_count;
 
 	Memory *mem;
+	MemoryLoader *ml;
 	ScoreBoard *sb;
 	RegisterFile *rf;
-	MemoryLoader *ml;
 
 	instruction decodeInstruction(ins_value_t inst);
 

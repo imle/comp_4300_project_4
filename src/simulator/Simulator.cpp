@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Simulator.h"
 #include "../functional_units/IntegerFU.h"
+#include "../functional_units/FPAddFU.h"
+#include "../functional_units/FPMemoryFU.h"
 
 void Simulator::setMode(SIM_MODE mode) {
 	this->mode = mode;
@@ -19,6 +21,8 @@ Simulator::Simulator(Memory *mem, MemoryLoader *ml, ScoreBoard *sb, RegisterFile
 
 	this->sb->registerFunctionalUnit(new IntegerFU());
 	this->sb->registerFunctionalUnit(new IntegerFU());
+	this->sb->registerFunctionalUnit(new FPAddFU());
+	this->sb->registerFunctionalUnit(new FPMemoryFU(this->mem));
 }
 
 ERROR_CODE Simulator::run(std::string file_path) {
@@ -26,7 +30,10 @@ ERROR_CODE Simulator::run(std::string file_path) {
 	this->instruction_count = 0;
 	this->cycle_count = 0;
 
-	this->ml->loadFileIntoMemory(file_path, this->mem);
+	ERROR_CODE result = this->ml->loadFileIntoMemory(file_path, this->mem);
+
+	if (result != NO_ERROR)
+		return result;
 
 	if (this->mode == MODE_DEBUG) {
 		this->mem->print();
@@ -34,7 +41,7 @@ ERROR_CODE Simulator::run(std::string file_path) {
 
 	this->user_mode = true;
 
-	while (this->user_mode) {
+	while (this->user_mode || (!this->user_mode && !this->sb->allIdle())) {
 		std::map<FunctionalUnit *, instruction> finished = this->sb->write();
 
 		std::map<FunctionalUnit *, instruction>::iterator iter;
@@ -44,7 +51,9 @@ ERROR_CODE Simulator::run(std::string file_path) {
 			reg_value rd1 = this->rf->read(ins.rs);
 			reg_value rd2 = this->rf->read(ins.rt);
 
-			std::cout << OPC_STRINGS[ins.opc] << std::endl;
+			if (this->mode == MODE_DEBUG) {
+				std::cout << OPC_STRINGS[ins.opc] << std::endl;
+			}
 
 			bool reg_equal = rd1 == rd2;
 
@@ -55,6 +64,12 @@ ERROR_CODE Simulator::run(std::string file_path) {
 
 			if (ins.opc == OPC_SYSCALL) {
 				this->systemCall(rd1, this->user_mode);
+
+				this->user_mode = !this->user_mode;
+			}
+
+			if (OPC_FU[ins.opc] == FU_MEM) {
+				rd1 += ins.imm;
 			}
 
 			uint32_t alu_value = std::get<5>(OPC_CONTROL_SIGNALS[ins.opc]) ? (uint32_t)ins.imm : rd2;
@@ -74,6 +89,10 @@ ERROR_CODE Simulator::run(std::string file_path) {
 				if (std::get<4>(OPC_CONTROL_SIGNALS[ins.opc]) && std::get<1>(OPC_CONTROL_SIGNALS[ins.opc])) {
 					this->rf->write(ins.rd, this->mem->read(value, SIZE_BYTE));
 				}
+			}
+
+			if (OPC_FU[ins.opc] == FU_ADD || OPC_FU[ins.opc] == FU_MULT || OPC_FU[ins.opc] == FU_MEM) {
+				this->rf->write(ins.rd, value);
 			}
 		}
 
@@ -155,8 +174,13 @@ ERROR_CODE Simulator::systemCall(ins_value_t code, bool &should_exit) {
 	}
 
 	else if (code == 2) {
-		// TODO: Implement
 		/// $f12 = float to be printed
+		uint32_t value = this->rf->read(this->rf->registerNameToAddress("$f12"));
+
+		float output_float;
+		memcpy(&output_float, &value, sizeof(value));
+
+		std::cout << output_float << std::endl;
 	}
 
 	else if (code == 3) {

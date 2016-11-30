@@ -95,3 +95,7 @@ void Memory::print() {
 		std::cout << std::endl;
 	}
 }
+
+Memory::Memory() {
+	this->memory = {};
+}

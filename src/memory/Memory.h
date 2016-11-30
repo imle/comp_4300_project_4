@@ -44,6 +44,8 @@ private:
 public:
 	static const uint8_t MEM_ADDR_BIT_SIZE_TOTAL;
 
+	Memory();
+
 	ins_value_t read(mem_addr address, MEM_UNIT size);
 
 	void write(mem_addr address, uint32_t value);

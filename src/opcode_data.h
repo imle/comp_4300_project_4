@@ -254,9 +254,9 @@ static std::map<opcode, control_signal_tuple> OPC_CONTROL_SIGNALS = {
 
 		{ OPC_SD,      std::make_tuple(false, false, false, false, false, false, false) },
 		{ OPC_LD,      std::make_tuple(false, false, false, false, false, false, false) },
-		{ OPC_FADD,    std::make_tuple(false, false, false, false, false, false, false) },
-		{ OPC_FSUB,    std::make_tuple(false, false, false, false, false, false, false) },
-		{ OPC_FMUL,    std::make_tuple(false, false, false, false, false, false, false) },
+		{ OPC_FADD,    std::make_tuple(false, false, false, false, false, false, true) },
+		{ OPC_FSUB,    std::make_tuple(false, false, false, false, false, false, true) },
+		{ OPC_FMUL,    std::make_tuple(false, false, false, false, false, false, true) },
 };
 
 const std::string DATA_TYPE_ASCII = "ascii";        // str
@@ -264,6 +264,8 @@ const std::string DATA_TYPE_ASCIIZ = "asciiz";      // str
 const std::string DATA_TYPE_BYTE = "byte";          // b1, ..., bn
 const std::string DATA_TYPE_HALFWORD = "halfword";  // h1, ..., hn
 const std::string DATA_TYPE_WORD = "word";          // w1, ..., wn
+const std::string DATA_TYPE_FLOAT = "float";        // f1, ..., fn
+const std::string DATA_TYPE_DOUBLE = "double";      // d1, ..., dn
 const std::string DATA_TYPE_SPACE = "space";        // numBytes
 
 std::string getOpcName(opcode opc);
