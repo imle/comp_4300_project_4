@@ -43,6 +43,10 @@ ERROR_CODE Simulator::run(std::string file_path) {
 	this->user_mode = true;
 
 	while (this->user_mode || (!this->user_mode && !this->sb->allIdle())) {
+		this->sb->read();
+
+		this->issueInstruction();
+
 		std::map<FunctionalUnit *, instruction> finished = this->sb->write();
 
 		std::map<FunctionalUnit *, instruction>::iterator iter;
@@ -64,9 +68,7 @@ ERROR_CODE Simulator::run(std::string file_path) {
 			}
 
 			if (ins.opc == OPC_SYSCALL) {
-				this->systemCall(rd1, this->user_mode);
-
-				this->user_mode = !this->user_mode;
+				this->systemCall(rd1);
 			}
 
 			if (OPC_FU[ins.opc] == FU_MEM) {
@@ -97,11 +99,7 @@ ERROR_CODE Simulator::run(std::string file_path) {
 			}
 		}
 
-		this->sb->read();
-
 		this->sb->advance();
-
-		this->issueInstruction();
 	}
 
 	if (this->mode == MODE_DEBUG) {
@@ -136,9 +134,12 @@ void Simulator::issueInstruction() {
 
 	if (fu != nullptr) {
 		this->pc += sizeof(SIZE_DWORD);
-
-		this->instruction_count++;
 	}
+	else {
+		this->nop_count++;
+	}
+
+	this->instruction_count++;
 }
 
 ins_value_t Simulator::getNBitsFrom(ins_value_t ins, uint8_t start, uint8_t length) {
@@ -168,7 +169,7 @@ instruction Simulator::decodeInstruction(ins_value_t inst) {
 	return ins;
 }
 
-ERROR_CODE Simulator::systemCall(ins_value_t code, bool &should_exit) {
+ERROR_CODE Simulator::systemCall(ins_value_t code) {
 	if (code == 1) {
 		/// $a0 = integer to be printed
 		std::cout << this->rf->read(this->rf->registerNameToAddress("$a0")) << std::endl;
@@ -254,7 +255,7 @@ ERROR_CODE Simulator::systemCall(ins_value_t code, bool &should_exit) {
 		///     $a0 = amount	address in $v0
 
 	else if (code == 10) {
-		should_exit = true;
+		this->user_mode = false;
 	}
 
 	return NO_ERROR;

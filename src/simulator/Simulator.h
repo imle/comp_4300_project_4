@@ -40,7 +40,7 @@ public:
 
 	ins_value_t getNBitsFrom(ins_value_t ins, uint8_t start, uint8_t length);
 
-	ERROR_CODE systemCall(ins_value_t code, bool &should_exit);
+	ERROR_CODE systemCall(ins_value_t code);
 };
 
 

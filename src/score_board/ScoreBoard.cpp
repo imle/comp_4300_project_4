@@ -38,6 +38,7 @@ FunctionalUnit *ScoreBoard::issue(instruction ins) {
 
 			if (!iter->second.busy) {
 				iter->second.busy = true;
+				iter->second.opc = ins.opc;
 				iter->second.f_d = ins.rd;
 				iter->second.f_s = ins.rs;
 				iter->second.f_t = ins.rt;
@@ -81,20 +82,22 @@ void ScoreBoard::read(void) {
 void ScoreBoard::advance(void) {
 	std::map<FunctionalUnit *, FUS>::iterator iter;
 	for (iter = this->statuses_fu.begin(); iter != this->statuses_fu.end(); iter++) {
-		if (iter->second.busy && iter->second.was_started) {
-			if (iter->second.time_remaining > 0) {
-				iter->second.time_remaining--;
+		if (iter->second.busy) {
+			if (iter->second.was_started) {
+				if (iter->second.time_remaining > 0) {
+					iter->second.time_remaining--;
+				}
 			}
-		}
-		else {
-			if (this->isFinished(iter->second.wait_on_fu_s)) {
-				iter->second.wait_on_fu_s = nullptr;
-				iter->second.available_s = true;
-			}
+			else {
+				if (this->statuses_reg[iter->second.f_s] == nullptr) {
+					iter->second.wait_on_fu_s = nullptr;
+					iter->second.available_s = true;
+				}
 
-			if (this->isFinished(iter->second.wait_on_fu_t)) {
-				iter->second.wait_on_fu_t = nullptr;
-				iter->second.available_t = true;
+				if (this->statuses_reg[iter->second.f_t] == nullptr) {
+					iter->second.wait_on_fu_t = nullptr;
+					iter->second.available_t = true;
+				}
 			}
 		}
 	}

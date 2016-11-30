@@ -27,18 +27,16 @@ loop:
     add $f5, $f7, $zero     # Y1 = Y0
 
 	beq $5, $0, end         # $5 == 0 ? goto end
-	nop
-	nop
     subi $5, $5, 1          # $5--;
     b loop                  # goto loop
 
 end:
+	li $2, 2                # load print_float procedure
+
     add $f12, $f6, $zero    # print X0
-	li $2, 2
 	syscall
 
     add $f12, $f7, $zero    # print Y0
-	li $2, 2
 	syscall
 
 	li $2, 10               # exit
