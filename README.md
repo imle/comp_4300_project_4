@@ -8,11 +8,11 @@ In the root directory, run:
 
 To run the Scoreboard Simulator:
 
-`$ ./scoSim ./lab3a.s`
+`$ ./scoSim ./lab4c.s`
 
 To run the Scoreboard Simulator in debug mode:
 
-`$ ./scoSim -d ./lab3a.s`
+`$ ./scoSim -d ./lab4c.s`
 
 ## Debug Mode
 
