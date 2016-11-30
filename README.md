@@ -50,9 +50,6 @@ program's close approximations:
 
 |                     | C       |
 |---------------------|---------|
-| Total Instructions  | 338     |
-| Total Cycles        | 198     |
-| Single Cycle "Time" | 2704    |
-| Multi Cycle "Time"  | 198     |
-| Calculated Speedup  | 13.6566 |
-| NOP Count           | 198     |
+| Total Instructions  | 4123    |
+| Total Cycles        | 4123    |
+| NOP Count           | 2991    |

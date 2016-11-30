@@ -105,6 +105,10 @@ ERROR_CODE Simulator::run(std::string file_path) {
 		this->mem->print();
 	}
 
+	std::cout << std::endl << "Total Instructions: " << this->instruction_count << std::endl;
+	std::cout << "Total Cycles: " << this->cycle_count << std::endl;
+	std::cout << "NOP Count: " << this->nop_count << std::endl;
+
 	return NO_ERROR;
 }
 
