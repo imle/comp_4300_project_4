@@ -20,7 +20,6 @@ Simulator::Simulator(Memory *mem, MemoryLoader *ml, ScoreBoard *sb, RegisterFile
 	this->pc = MEM_ADDR_MIN_USER_TEXT;
 
 	this->sb->registerFunctionalUnit(new IntegerFU());
-	this->sb->registerFunctionalUnit(new IntegerFU());
 	this->sb->registerFunctionalUnit(new FPAddFU());
 	this->sb->registerFunctionalUnit(new FPMultiplyFU());
 	this->sb->registerFunctionalUnit(new FPMemoryFU(this->mem));
